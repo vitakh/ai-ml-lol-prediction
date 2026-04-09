@@ -3,11 +3,12 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 
 def preprocess_and_train():
     """
     Preprocesses the data and trains logistic regression models for team performance, individual performance, and lane matchup win/loss prediction.
+    Evaluates the models using accuracy, precision, recall, F1 score, and confusion matrix, and prints them out for each.
 
     Returns:
         model_team: trained logistic regression model for team performance prediction.
@@ -61,8 +62,12 @@ def preprocess_and_train():
     y_pred = model_team.predict(X_test)
 
     # evaluating the model
-    accuracy = accuracy_score(y_test, y_pred)
-    print(f'Accuracy score for team performance model: {accuracy:.4f}')
+    accuracy_team = accuracy_score(y_test, y_pred)
+    print(f'Accuracy score for team performance model: {accuracy_team:.4f}')
+    print(f'Precision score for team performance model: {precision_score(y_test, y_pred):.4f}')
+    print(f'Recall score for team performance model: {recall_score(y_test, y_pred):.4f}')
+    print(f'F1 score for team performance model: {f1_score(y_test, y_pred):.4f}')
+    print(f'Confusion Matrix for team performance model:\n{confusion_matrix(y_test, y_pred)}')
 
     # predicting win/loss based on individuals performance
     # baseline creation for individual performance, features from MatchStatsTbl
@@ -79,6 +84,10 @@ def preprocess_and_train():
     y_pred_ind = model_individual.predict(X_test_ind)
     accuracy_ind = accuracy_score(y_test_ind, y_pred_ind)
     print(f'Accuracy score for individual performance model: {accuracy_ind:.4f}')
+    print(f'Precision score for individual performance model: {precision_score(y_test_ind, y_pred_ind):.4f}')
+    print(f'Recall score for individual performance model: {recall_score(y_test_ind, y_pred_ind):.4f}')
+    print(f'F1 score for individual performance model: {f1_score(y_test_ind, y_pred_ind):.4f}')
+    print(f'Confusion Matrix for individual performance model:\n{confusion_matrix(y_test_ind, y_pred_ind)}')
 
     # lane matchup analysis
     # for user input, make sure to put the id of the champion (convert supplied name into id)
@@ -106,6 +115,10 @@ def preprocess_and_train():
     # evaluating the model
     accuracy_lane = accuracy_score(y_test_lane, y_pred_lane)
     print(f'Accuracy score for lane matchup model: {accuracy_lane:.4f}')
+    print(f'Precision score for lane matchup model: {precision_score(y_test_lane, y_pred_lane):.4f}')
+    print(f'Recall score for lane matchup model: {recall_score(y_test_lane, y_pred_lane):.4f}')
+    print(f'F-1 score for lane matchup model: {f1_score(y_test_lane, y_pred_lane):.4f}')
+    print(f'Confusion Matrix for lane matchup model:\n{confusion_matrix(y_test_lane, y_pred_lane)}')
 
     return model_team, model_individual, model_lane
 
